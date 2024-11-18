@@ -1,19 +1,13 @@
 from fastapi import FastAPI
-from routers import auth, application
+from routers import user, rating
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI(
     docs_url="/api/docs/",
     redoc_url="/api/redoc/",
-    title="Workify API v1",
+    title="Volunteer API v2",
     version="1.0.0",
-    description="This is the API for Workify, a specialized application for managing work orders.",
-    openapi_tags=[
-        {
-            "name": "auth",
-            "description": "Operations related to authentication",
-        }
-    ],
+    description="This is the API for Volunteer Application",
 )
 
 app.add_middleware(
@@ -22,14 +16,14 @@ app.add_middleware(
         "http://172.16.11.247:8777",
         "http://172.16.12.126:5173",
         "http://localhost:5173",
-    ], 
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-app.include_router(auth.router, prefix="/api/auth", tags=["auth"])
-app.include_router(application.router, prefix="/api/app", tags=["app"])
+app.include_router(user.router, prefix="/api/user", tags=["user"])
+app.include_router(rating.router, prefix="/api/rating", tags=["rating"])
 
 
 if __name__ == "__main__":
